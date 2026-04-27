@@ -1,4 +1,4 @@
-{
+ {
     "fullName": "Sushil Chaudhari",
     "professionalTitle": "Senior Pega Developer and DevOps",
     "githubLink": "https://github.com/csushildev",
@@ -58,6 +58,11 @@
         "email": "sachaudhari1803@gmail.com"
     },
     "projects": [
+        {
+            "name": "DoD, ACT",
+            "tenure": "June 2026 – ",
+            "description": "Working as Dev and QA Lead, essentially as Forward deployed engineer Service Connect project designing business workflows. Tools used Adobe AEM, Pega PRPC, Co-Pilot, Cypress-Js, Python"
+        },
         {
             "name": "Department of Transport and Planning, Victoria (Cloud Arch)",
             "tenure": "July 2022 – Feb 2024",
