@@ -288,26 +288,26 @@
         <div>
           <div class="flex items-center gap-2">
             <span class="font-mono text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-blue-400">Section 01 // Regulatory Alignment</span>
-    <!-- 4. ENTERPRISE ENGAGEMENT & CONTROLS ASSURANCE LEDGER (TWO-CHAPTER PROGRESSION) -->
-    <section id="experience" class="space-y-6 scroll-mt-24">
-      <div class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
-        <div>
-          <span class="font-mono text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-blue-400">Section 03 // Career Progression &amp; Audit Ledger</span>
+          </div>
           <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">
-            From Engineering &amp; QA Foundation to GRC &amp; ServiceNow Assurance
+            Interactive Regulatory Framework Crosswalk
           </h2>
           <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-            Structured into two distinct career chapters: <strong>Recent GRC &amp; Regulatory Assurance (2021–Present, starting at TAL Life)</strong> built upon a <strong>10-Year Enterprise Development &amp; QA Foundation (2011–2021)</strong>.
+            Click any framework card below to filter and highlight matching enterprise controls and project evidence across the dossier.
           </p>
         </div>
 
-        <div class="text-xs font-mono text-slate-500 dark:text-slate-400">
-          Showing <span id="projectCountBadge" class="font-bold text-slate-900 dark:text-white">10</span> verified engagements
-        </div>
+        <button
+          id="clearCrosswalkBtn"
+          onclick="setActiveFramework(null)"
+          class="hidden text-xs font-mono font-semibold px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+        >
+          ✕ Clear Framework Filter
+        </button>
       </div>
 
-      <div id="projectsLedger" class="space-y-8">
-        <!-- Dynamically populated in 2 Career Chapters from profileData.projects -->
+      <div id="frameworksGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Dynamically populated from profileData.frameworks -->
       </div>
     </section>
 
@@ -349,16 +349,16 @@
       </div>
     </section>
 
-    <!-- 4. ENTERPRISE ENGAGEMENT & CONTROLS ASSURANCE LEDGER (10 PROJECTS) -->
-    <section id="experience" class="space-y-5 scroll-mt-24">
+    <!-- 4. ENTERPRISE ENGAGEMENT & CONTROLS ASSURANCE LEDGER (TWO-CHAPTER PROGRESSION) -->
+    <section id="experience" class="space-y-6 scroll-mt-24">
       <div class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
         <div>
-          <span class="font-mono text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-blue-400">Section 03 // Audit &amp; Delivery Evidence</span>
+          <span class="font-mono text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-blue-400">Section 03 // Career Progression &amp; Audit Ledger</span>
           <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">
-            Enterprise Controls Assurance &amp; Delivery Ledger
+            From Engineering &amp; QA Foundation to GRC &amp; ServiceNow Assurance
           </h2>
           <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-            15+ years of enterprise engagements across Government, Banking, and Insurance—mapped to regulatory frameworks and operational controls.
+            Structured into two distinct career chapters: <strong>Recent GRC &amp; Regulatory Assurance (2021–Present, starting at TAL Life)</strong> built upon a <strong>10-Year Enterprise Development &amp; QA Foundation (2011–2021)</strong>.
           </p>
         </div>
 
@@ -367,8 +367,8 @@
         </div>
       </div>
 
-      <div id="projectsLedger" class="space-y-4">
-        <!-- Dynamically populated from profileData.projects -->
+      <div id="projectsLedger" class="space-y-8">
+        <!-- Dynamically populated in 2 Career Chapters from profileData.projects -->
       </div>
     </section>
 
@@ -861,35 +861,57 @@
         merged.links = rawObj.links.map((l, idx) => ({
           url: l.url || "#",
           text: l.text || l.url || `Resource Link ${idx + 1}`,
-      // Update Prep Mode Banner & Modal Toggle Button
-      const prepBanner = document.getElementById("prepAuditBanner");
-      const modalPrepBtn = document.getElementById("modalPrepToggleBtn");
+          badge: l.badge || "Resource",
+          primary: idx === 0 || !!l.primary
+        }));
+      }
 
-      const allVerifiable = [
-        ...(profileData.frameworks || []),
-        ...(profileData.skills || []),
-        ...(profileData.projects || []),
-        ...(profileData.certifications || [])
-      ];
-      const verifiedCount = allVerifiable.filter(i => i.verified).length;
-      const totalCount = allVerifiable.length || 1;
-      const pct = Math.round((verifiedCount / totalCount) * 100);
+      // Certifications (handles both strings and objects)
+      if (Array.isArray(rawObj.certifications) && rawObj.certifications.length > 0) {
+        merged.certifications = rawObj.certifications.map((c, idx) => {
+          if (typeof c === "string") {
+            return {
+              id: `cert-custom-${idx}`,
+              code: `CERT-${idx + 1}`,
+              name: c,
+              issuer: "Verified Credential",
+              category: "Certification",
+              verified: true
+            };
+          }
+          return {
+            id: c.id || `cert-custom-${idx}`,
+            code: c.code || `CERT-${idx + 1}`,
+            name: c.name || "Certification",
+            issuer: c.issuer || "Verified Credential",
+            category: c.category || "Certification",
+            verified: typeof c.verified === "boolean" ? c.verified : true
+          };
+        });
+      }
 
-      document.getElementById("prepProgressBar").style.width = `${pct}%`;
-      document.getElementById("prepProgressText").textContent = `${verifiedCount} / ${totalCount} Ready (${pct}%)`;
+      return merged;
+    }
 
-      if (prepModeActive) {
-        prepBanner.classList.remove("hidden");
-        if (modalPrepBtn) {
-          modalPrepBtn.textContent = "📋 Hide Interview Checklist Mode (Currently ON)";
-          modalPrepBtn.className = "text-xs font-mono font-bold px-3 py-1.5 rounded-lg border-2 border-slate-900 bg-amber-400 text-slate-950 transition";
+    function loadFromStorage() {
+      try {
+        const savedTheme = localStorage.getItem(STORAGE_KEY_THEME);
+        if (savedTheme === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
         }
-      } else {
-        prepBanner.classList.add("hidden");
-        if (modalPrepBtn) {
-          modalPrepBtn.textContent = "📋 Enable Interview Checklist Mode";
-          modalPrepBtn.className = "text-xs font-mono font-semibold px-3 py-1.5 rounded-lg border border-amber-400 bg-amber-50 dark:bg-amber-950 text-amber-900 dark:text-amber-200 hover:bg-amber-100 transition";
+
+        const savedPrep = localStorage.getItem(STORAGE_KEY_PREP_MODE);
+        prepModeActive = savedPrep === "true";
+
+        const rawProfile = localStorage.getItem(STORAGE_KEY_PROFILE);
+        if (rawProfile) {
+          const parsed = JSON.parse(rawProfile);
+          profileData = normalizeUploadedJson(parsed);
         }
+      } catch (err) {
+        console.error("Failed to load profile from storage:", err);
       }
     }
 
@@ -1025,10 +1047,9 @@
         </div>
       `;
 
-      // Update Prep Mode Banner & Toggle Button
+      // Update Prep Mode Banner & Modal Toggle Button
       const prepBanner = document.getElementById("prepAuditBanner");
-      const prepBtn = document.getElementById("prepModeToggleBtn");
-      const prepDot = document.getElementById("prepModeIndicator");
+      const modalPrepBtn = document.getElementById("modalPrepToggleBtn");
 
       const allVerifiable = [
         ...(profileData.frameworks || []),
@@ -1045,12 +1066,16 @@
 
       if (prepModeActive) {
         prepBanner.classList.remove("hidden");
-        prepDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping";
-        prepBtn.className = "text-xs font-bold px-3.5 py-2 rounded-lg border-2 transition flex items-center gap-2 bg-amber-500 text-slate-950 border-slate-900 shadow-sm";
+        if (modalPrepBtn) {
+          modalPrepBtn.textContent = "📋 Hide Interview Checklist Mode (Currently ON)";
+          modalPrepBtn.className = "text-xs font-mono font-bold px-3 py-1.5 rounded-lg border-2 border-slate-900 bg-amber-400 text-slate-950 transition";
+        }
       } else {
         prepBanner.classList.add("hidden");
-        prepDot.className = "w-2 h-2 rounded-full bg-amber-500";
-        prepBtn.className = "text-xs font-semibold px-3 py-2 rounded-lg border transition flex items-center gap-1.5 bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-700 hover:bg-amber-100";
+        if (modalPrepBtn) {
+          modalPrepBtn.textContent = "📋 Enable Interview Checklist Mode";
+          modalPrepBtn.className = "text-xs font-mono font-semibold px-3 py-1.5 rounded-lg border border-amber-400 bg-amber-50 dark:bg-amber-950 text-amber-900 dark:text-amber-200 hover:bg-amber-100 transition";
+        }
       }
     }
 
