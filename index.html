@@ -1,740 +1,1472 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sushil Chaudhari — Security Engineer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sushil Ashok Chaudhari — Senior GRC Analyst | IT Risk & AI Governance</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Fraunces', 'Georgia', 'serif'],
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          colors: {
+            dossier: {
+              ivory: '#FAF8F5',
+              paper: '#F1F5F9',
+              ink: '#0F172A',
+              slate: '#0B1120',
+              royal: '#1E3A8A',
+              emerald: '#0D9488',
+              amber: '#B45309',
+              gold: '#B45309'
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    :root {
-      --bg:        #080c0f;
-      --bg2:       #0d1318;
-      --bg3:       #111920;
-      --panel:     #0e1a22;
-      --border:    #1a3040;
-      --accent:    #00e5ff;
-      --accent2:   #00ff88;
-      --accent3:   #ff4c60;
-      --text:      #c8dde8;
-      --text-dim:  #5a7a8a;
-      --text-muted:#2a4858;
-      --mono:      'Share Tech Mono', monospace;
-      --head:      'Rajdhani', sans-serif;
-      --code:      'Space Mono', monospace;
+    /* Subtle architectural ledger grid background */
+    .bg-ledger {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
     }
- 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
-    html { scroll-behavior: smooth; }
- 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--head);
-      font-size: 16px;
-      line-height: 1.6;
-      overflow-x: hidden;
+    .dark .bg-ledger {
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
     }
- 
-    /* ── Scanline overlay ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.08) 2px,
-        rgba(0,0,0,0.08) 4px
-      );
-      pointer-events: none;
-      z-index: 9999;
+
+    /* Executive Dossier Card Styling */
+    .dossier-card {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
- 
-    /* ── Grid noise bg ── */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,229,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,255,0.02) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
-    }
- 
-    /* ── Layout ── */
-    .site-wrap {
-      position: relative;
-      z-index: 1;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
-    }
- 
-    /* ── HERO ── */
-    .hero {
-      padding: 80px 0 60px;
-      position: relative;
-    }
- 
-    .hero-eyebrow {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--accent2);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .hero-eyebrow::before {
-      content: '>';
-      color: var(--accent);
-      animation: blink 1.2s step-end infinite;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
- 
-    .hero-name {
-      font-family: var(--head);
-      font-size: clamp(38px, 6vw, 68px);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      color: #fff;
-      margin-bottom: 12px;
-    }
- 
-    .hero-name span {
-      color: var(--accent);
-      display: block;
-    }
- 
-    .hero-title {
-      font-family: var(--mono);
-      font-size: clamp(13px, 2vw, 16px);
-      color: var(--text-dim);
-      margin-bottom: 28px;
-      letter-spacing: 0.08em;
-    }
- 
-    .hero-title .bracket { color: var(--accent3); }
- 
-    .hero-summary {
-      max-width: 620px;
-      font-size: 17px;
-      font-weight: 400;
-      color: var(--text);
-      line-height: 1.75;
-      margin-bottom: 36px;
-    }
- 
-    .hero-actions {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
- 
-    .btn {
-      font-family: var(--mono);
-      font-size: 13px;
-      letter-spacing: 0.1em;
-      padding: 11px 26px;
-      border-radius: 3px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: inline-block;
-    }
- 
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      font-weight: 700;
-      border: 2px solid var(--accent);
-    }
-    .btn-primary:hover {
-      background: transparent;
-      color: var(--accent);
-      box-shadow: 0 0 20px rgba(0,229,255,0.3);
-    }
- 
-    .btn-ghost {
-      background: transparent;
-      color: var(--text);
-      border: 2px solid var(--border);
-    }
-    .btn-ghost:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      box-shadow: 0 0 16px rgba(0,229,255,0.15);
-    }
- 
-    /* ── Status bar ── */
-    .status-bar {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      margin-top: 48px;
-      padding: 16px 20px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent2);
-      font-family: var(--mono);
-      font-size: 12px;
-    }
- 
-    .status-item { color: var(--text-dim); }
-    .status-item strong { color: var(--accent2); margin-right: 6px; }
- 
-    /* ── Section styling ── */
-    .section {
-      margin-top: 70px;
-    }
- 
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 30px;
-    }
- 
-    .section-tag {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
- 
-    .section-title {
-      font-family: var(--head);
-      font-size: 26px;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.02em;
-    }
- 
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--border), transparent);
-    }
- 
-    /* ── Skills grid ── */
-    .skills-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
- 
-    .skill-tag {
-      font-family: var(--mono);
-      font-size: 12px;
-      padding: 7px 14px;
-      border: 1px solid var(--border);
-      color: var(--text);
-      background: var(--panel);
-      border-radius: 2px;
-      cursor: default;
-      transition: all 0.2s;
-      letter-spacing: 0.05em;
-      position: relative;
-      overflow: hidden;
-    }
- 
-    .skill-tag::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.25s ease;
-      z-index: -1;
-    }
- 
-    .skill-tag:hover {
-      color: #000;
-      border-color: var(--accent);
-    }
-    .skill-tag:hover::before { transform: scaleX(1); }
- 
-    /* ── Project cards ── */
-    .projects-list {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
- 
-    .project-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      padding: 0;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.25s;
-    }
- 
-    .project-card:hover {
-      border-color: var(--accent);
-    }
- 
-    .project-card:hover .project-bar { background: var(--accent); }
- 
-    .project-bar {
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3px;
-      background: var(--border);
-      transition: background 0.25s;
-    }
- 
-    .project-inner {
-      padding: 20px 24px 20px 28px;
-    }
- 
-    .project-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
- 
-    .project-name {
-      font-family: var(--head);
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.02em;
-    }
- 
-    .project-tenure {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent2);
-      white-space: nowrap;
-      padding: 3px 8px;
-      border: 1px solid rgba(0,255,136,0.2);
-      background: rgba(0,255,136,0.05);
-    }
- 
-    .project-desc {
-      font-size: 15px;
-      color: var(--text-dim);
-      line-height: 1.65;
-    }
- 
-    /* ── Certs ── */
-    .certs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 12px;
-    }
- 
-    .cert-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      padding: 16px 18px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      transition: border-color 0.2s;
-    }
- 
-    .cert-card:hover { border-color: var(--accent2); }
- 
-    .cert-icon {
-      width: 32px;
-      height: 32px;
-      border: 1px solid var(--accent2);
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      font-size: 14px;
-      color: var(--accent2);
-      font-family: var(--mono);
-      font-weight: 700;
-    }
- 
-    .cert-name {
-      font-family: var(--head);
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1.4;
-    }
- 
-    /* ── Contact ── */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 12px;
-    }
- 
-    .contact-item {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      padding: 18px 20px;
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      text-decoration: none;
-      color: var(--text);
-      transition: all 0.2s;
-    }
- 
-    .contact-item:hover {
-      border-color: var(--accent);
-      color: var(--accent);
+    .dossier-card:hover {
       transform: translateY(-2px);
     }
- 
-    .contact-label {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 3px;
+
+    /* Highlight pulse when cross-walking frameworks */
+    .crosswalk-match {
+      ring: 2px solid #1D4ED8;
+      box-shadow: 0 10px 25px -5px rgba(29, 78, 216, 0.22);
     }
- 
-    .contact-value {
-      font-size: 15px;
-      font-weight: 600;
+    .dark .crosswalk-match {
+      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
     }
- 
-    .contact-icon {
-      font-size: 20px;
-      width: 36px;
-      text-align: center;
-      flex-shrink: 0;
+    .crosswalk-dim {
+      opacity: 0.38;
+      filter: grayscale(35%);
     }
- 
-    /* ── Links section ── */
-    .links-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
     }
- 
-    .ext-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 16px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      text-decoration: none;
-      color: var(--text-dim);
-      font-family: var(--mono);
-      font-size: 13px;
-      transition: all 0.2s;
+    ::-webkit-scrollbar-track {
+      background: #F1F5F9;
     }
- 
-    .ext-link::before { content: '→'; color: var(--accent); }
-    .ext-link:hover { color: var(--accent); border-color: var(--accent); }
- 
-    /* ── Footer ── */
-    footer {
-      margin-top: 80px;
-      padding: 24px 0;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text-muted);
+    .dark ::-webkit-scrollbar-track {
+      background: #0F172A;
     }
- 
-    /* ── Animations ── */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(24px);
-      animation: fadeUp 0.6s ease forwards;
-    }
- 
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
- 
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.35s; }
-    .delay-4 { animation-delay: 0.5s; }
-    .delay-5 { animation-delay: 0.65s; }
- 
-    /* ── Responsive ── */
-    @media (max-width: 600px) {
-      .hero { padding: 50px 0 40px; }
-      .status-bar { gap: 14px; }
-      .project-header { flex-direction: column; }
+    ::-webkit-scrollbar-thumb {
+      background: #94A3B8;
+      border-radius: 9999px;
     }
   </style>
 </head>
-<body>
-  <div class="site-wrap">
- 
-    <!-- HERO -->
-    <header class="hero">
-      <div class="hero-eyebrow fade-up">PORTFOLIO // SECURITY ENGINEER</div>
-      <h1 class="hero-name fade-up delay-1">
-        Sushil
-        <span>Chaudhari</span>
-      </h1>
-      <p class="hero-title fade-up delay-2">
-        <span class="bracket">[</span>&nbsp;ServiceNow/Pega Developer&nbsp;<span class="bracket">→</span>&nbsp;Security Analysis / Security Engineering&nbsp;<span class="bracket">]</span>
-      </p>
-      <p class="hero-summary fade-up delay-3">
-        10+ years engineering enterprise applications across banking, insurance, and government — now expanding into cybersecurity. Bringing deep system architecture knowledge, cloud expertise, and DevOps discipline to threat detection, secure design, and application security.
-      </p>
-      <div class="hero-actions fade-up delay-4">
-        <a href="" class="btn btn-primary" target="_blank">Download Resume</a>
-        <a href="https://github.com/csushildev" class="btn btn-ghost" target="_blank">GitHub →</a>
+<body class="bg-[#FAF8F5] dark:bg-[#0B1120] text-[#0F172A] dark:text-slate-100 font-sans antialiased bg-ledger min-h-screen transition-colors duration-200">
+
+  <!-- ===================================================================== -->
+  <!-- TOP REGULATORY ASSURANCE POSTURE & CONTROL TOOLBAR                    -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#111827]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
+    <!-- Top Micro Posture Strip -->
+    <div class="bg-[#0F172A] dark:bg-[#0B1120] text-slate-200 text-[11px] font-mono py-1.5 px-4 border-b border-slate-800">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+        <div class="flex flex-wrap items-center gap-3">
+          <!-- HIDDEN ADMIN TRIGGER: Blinking Green Dot in Top-Left -->
+          <button
+            onclick="openJsonEditorModal()"
+            class="group relative flex items-center justify-center w-5 h-5 rounded-full focus:outline-none"
+            title="Admin Command Portal: Upload/Download Cloud JSON & Toggle Interview Prep Mode"
+            aria-label="Open Data & Prep Command Modal"
+          >
+            <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10b981] group-hover:scale-125 transition-transform"></span>
+          </button>
+          <span class="text-emerald-400 font-semibold tracking-wider">
+            DOSSIER // GRC-2026
+          </span>
+          <span class="hidden sm:inline text-slate-500">|</span>
+          <span id="postureJurisdiction" class="hidden sm:inline">GOVERNANCE, RISK &amp; COMPLIANCE ASSURANCE // MELBOURNE, VIC</span>
+          <span class="hidden md:inline text-slate-500">|</span>
+          <span id="posturePlatforms" class="hidden md:inline text-amber-300">PRIMARY PLATFORM: SERVICENOW (CSA/CAD · IRM/GRC)</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span id="postureAuditTenure" class="text-sky-300">5+ YRS GRC &amp; ASSURANCE · 10+ YRS ENGINEERING &amp; QA</span>
+        </div>
       </div>
- 
-      <div class="status-bar fade-up delay-5">
-        <div class="status-item"><strong>EXP</strong>10+ yrs</div>
-        <div class="status-item"><strong>BASE</strong>Australia</div>
-        <div class="status-item"><strong>CERT</strong>ISC2 CC · AWS SAA · Pega CSSA</div>
-        <div class="status-item"><strong>FOCUS</strong>Cyber · Cloud · SecOps</div>
+    </div>
+
+    <!-- Main Public Navigation (Clean Recruiter View — No Public Edit/JSON Buttons) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <!-- Secondary Top-Left Blinking Green Dot on Brand Mark for Easy Access -->
+        <button
+          onclick="openJsonEditorModal()"
+          class="relative w-10 h-10 rounded-lg bg-[#1E3A8A] text-white flex items-center justify-center font-serif font-bold text-xl shadow-sm hover:bg-blue-900 transition"
+          title="Click to open Cloud JSON & Prep Command Center"
+        >
+          SC
+          <span class="absolute -top-1 -left-1 flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-[#10b981] border border-white dark:border-slate-900"></span>
+          </span>
+        </button>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/80 text-[#1E3A8A] dark:text-sky-300 border border-blue-200 dark:border-blue-800 font-semibold">
+              EXECUTIVE ASSURANCE DOSSIER
+            </span>
+          </div>
+          <p id="navFullName" class="font-serif font-bold text-base sm:text-lg text-slate-900 dark:text-white leading-tight mt-0.5">
+            Sushil Chaudhari
+          </p>
+        </div>
       </div>
-    </header>
- 
-    <!-- SKILLS -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-tag">01</span>
-        <h2 class="section-title">Technical Arsenal</h2>
-        <div class="section-line"></div>
+
+      <!-- Section Quick Links -->
+      <nav class="hidden lg:flex items-center gap-6 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+        <a href="#crosswalk" class="hover:text-blue-700 dark:hover:text-blue-400 transition">Framework Crosswalk</a>
+        <a href="#arsenal" class="hover:text-blue-700 dark:hover:text-blue-400 transition">Capabilities</a>
+        <a href="#experience" class="hover:text-blue-700 dark:hover:text-blue-400 transition">Career Progression</a>
+        <a href="#credentials" class="hover:text-blue-700 dark:hover:text-blue-400 transition">Credentials</a>
+        <a href="#contact" class="hover:text-blue-700 dark:hover:text-blue-400 transition">Verification</a>
+      </nav>
+
+      <!-- Clean Public Action Controls: Only Theme Toggle is visible to public visitors -->
+      <div class="flex items-center gap-2">
+        <button
+          onclick="toggleTheme()"
+          id="themeToggleBtn"
+          class="px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition text-xs font-mono"
+          title="Switch between Executive Ivory Dossier (Light) and Boardroom Slate (Dark)"
+        >
+          🌙 Boardroom Dark
+        </button>
       </div>
-      <div class="skills-grid">
-        <span class="skill-tag">ServiceNow</span>
-        <span class="skill-tag">Pega</span>
-        <span class="skill-tag">JavaScript</span>
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">Java</span>
-        <span class="skill-tag">SQL</span>
-        <span class="skill-tag">AWS / Azure</span>
-        <span class="skill-tag">DevOps</span>
-        <span class="skill-tag">Linux &amp; Shell Scripting</span>
-        <span class="skill-tag">Cypress.js</span>
-        <span class="skill-tag">Adobe AEM</span>
-        <span class="skill-tag">Business/Technical Analysis</span>
-        <span class="skill-tag">Security Engineering</span>
-        <span class="skill-tag">Splunk</span>
-        <span class="skill-tag">IAM &amp; Zero Trust</span>
-        <span class="skill-tag">Threat Modelling</span>
-        <span class="skill-tag">AI</span>
-        <span class="skill-tag">SIEM &amp; Log Analysis</span>
-      </div>
-    </section>
- 
-    <!-- EXPERIENCE -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-tag">02</span>
-        <h2 class="section-title">Project Experience</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="projects-list">
- 
-        <div class="project-card">
-          <div class="project-bar"></div>
-          <div class="project-inner">
-            <div class="project-header">
-              <span class="project-name">DoD, ACT</span>
-              <span class="project-tenure">June 2024 – Present</span>
+    </div>
+
+    <!-- Collapsible Interview Prep Audit Progress Drawer (Only shown when Prep Mode is enabled inside the Green Dot Modal) -->
+    <div id="prepAuditBanner" class="hidden bg-amber-50/95 dark:bg-amber-950/70 border-t border-amber-200 dark:border-amber-800 px-4 sm:px-6 py-3">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 rounded bg-amber-600 text-white font-mono text-xs font-bold uppercase">
+            Self-Audit Mode Active
+          </span>
+          <p class="text-xs sm:text-sm text-amber-950 dark:text-amber-100 font-medium">
+            Tick off every framework, skill, and project claim below once you can defend it with a 2-minute STAR story.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+          <div class="flex items-center gap-2">
+            <div class="w-32 sm:w-44 h-2.5 bg-amber-200 dark:bg-amber-900 rounded-full overflow-hidden border border-amber-400/40">
+              <div id="prepProgressBar" class="h-full bg-emerald-600 transition-all duration-300" style="width: 0%"></div>
             </div>
-            <p class="project-desc">Dev &amp; QA Lead / Forward Deployed Engineer on Service Connect — designing secure business workflows. Tools: Adobe AEM, ServiceNow, Pega, Co-Pilot, Cypress.js, Python.</p>
+            <span id="prepProgressText" class="font-mono text-xs font-bold text-amber-950 dark:text-amber-200">0 / 0 Ready (0%)</span>
           </div>
-        </div>
- 
-        <div class="project-card">
-          <div class="project-bar"></div>
-          <div class="project-inner">
-            <div class="project-header">
-              <span class="project-name">Department of Transport &amp; Planning, Victoria</span>
-              <span class="project-tenure">Jul 2022 – Feb 2024</span>
-            </div>
-            <p class="project-desc">Senior Pega Developer &amp; Dev-Ops Engineer on a cloud-architected Payments system. Processed payments to service providers across Bus, Rail, Tram, and Ferry transport using Pega BPM.</p>
-          </div>
-        </div>
- 
-        <div class="project-card">
-          <div class="project-bar"></div>
-          <div class="project-inner">
-            <div class="project-header">
-              <span class="project-name">Services Australia</span>
-              <span class="project-tenure">Apr 2022 – Jul 2022</span>
-            </div>
-            <p class="project-desc">Senior Pega Developer on a Pension Calculation platform. Headless Pega business-rules application enabling business users to configure rates and rules without dev intervention.</p>
-          </div>
-        </div>
- 
-        <div class="project-card">
-          <div class="project-bar"></div>
-          <div class="project-inner">
-            <div class="project-header">
-              <span class="project-name">TAL Life (Areteans)</span>
-              <span class="project-tenure">May 2021 – Apr 2022</span>
-            </div>
-            <p class="project-desc">Lead Pega Developer — end-to-end delivery of ASIC Complaints Handling module. Customer Service application using Pega for Insurance &amp; CS for Insurance Frameworks.</p>
-          </div>
-        </div>
- 
-        <div class="project-card">
-          <div class="project-bar"></div>
-          <div class="project-inner">
-            <div class="project-header">
-              <span class="project-name">Macquarie Bank (Virtusa)</span>
-              <span class="project-tenure">Jun 2018 – May 2021</span>
-            </div>
-            <p class="project-desc">Post-Settlement Account Servicing &amp; Collections for personal banking products. Leveraged Pega Collections Framework, CDH, and CS for FS. Improved post-settlement process for cash, card, and mortgage products.</p>
-          </div>
-        </div>
- 
-        <div class="project-card">
-          <div class="project-bar"></div>
-          <div class="project-inner">
-            <div class="project-header">
-              <span class="project-name">Asurion LLC (Synechron)</span>
-              <span class="project-tenure">Nov 2015 – May 2018</span>
-            </div>
-            <p class="project-desc">SPOC for offshore modules on device insurance project. Customer service application on Pega CPM. Provided developer support for production issues and banking domain projects.</p>
-          </div>
-        </div>
- 
-        <div class="project-card">
-          <div class="project-bar"></div>
-          <div class="project-inner">
-            <div class="project-header">
-              <span class="project-name">Standard Chartered Bank (Synechron)</span>
-              <span class="project-tenure">Nov 2015 – May 2018</span>
-            </div>
-            <p class="project-desc">On-Boarding CASA &amp; CCPL. Created an extensible framework for retail banking across the APAC region. Worked on-site with the client team in a customer onboarding application.</p>
-          </div>
-        </div>
- 
-        <div class="project-card">
-          <div class="project-bar"></div>
-          <div class="project-inner">
-            <div class="project-header">
-              <span class="project-name">Charles Schwab (Infosys)</span>
-              <span class="project-tenure">Aug 2014 – Jul 2015</span>
-            </div>
-            <p class="project-desc">Senior Developer overseeing multiple modules. Real-time position monitoring application using Pega and Java/JavaScript. Mentored team developers on deliverables.</p>
-          </div>
-        </div>
- 
-        <div class="project-card">
-          <div class="project-bar"></div>
-          <div class="project-inner">
-            <div class="project-header">
-              <span class="project-name">BNY Mellon</span>
-              <span class="project-tenure">Jul 2011 – Jul 2014</span>
-            </div>
-            <p class="project-desc">Java Developer across Treasury, Asset Management, and Liquidity projects — Asset Servicing, Onboarding Treasury Products, and Liquidity Dashboard.</p>
-          </div>
-        </div>
- 
-      </div>
-    </section>
- 
-    <!-- CERTIFICATIONS -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-tag">03</span>
-        <h2 class="section-title">Certifications</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="certs-grid">
-        <div class="cert-card">
-          <div class="cert-icon">P</div>
-          <div class="cert-name">Pega CLSA-A</div>
-        </div>
-        <div class="cert-card">
-          <div class="cert-icon">S</div>
-          <div class="cert-name">ServiceNow - Certified System Administrator</div>
-        </div>
-        <div class="cert-card">
-          <div class="cert-icon">☁</div>
-          <div class="cert-name">Azure Cloud Fundamentals - AZ-900 </div>
-        </div>
-        <div class="cert-card">
-          <div class="cert-icon">☁</div>
-          <div class="cert-name">AWS Certified Solutions Architect – Associate</div>
-        </div>
-        <div class="cert-card">
-          <div class="cert-icon">🔒</div>
-          <div class="cert-name">ISC2 Certified in Cybersecurity (CC)</div>
+          <select id="prepFilterSelect" onchange="renderAll()" class="text-xs font-mono px-2.5 py-1.5 rounded border border-amber-400 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100">
+            <option value="all">Show All Items</option>
+            <option value="unverified">🔍 Needs Study Only</option>
+            <option value="verified">✅ Ready Only</option>
+          </select>
+          <button onclick="togglePrepMode()" class="text-xs font-mono px-2.5 py-1 rounded bg-amber-800 text-white hover:bg-amber-900">
+            Hide Prep Mode
+          </button>
         </div>
       </div>
-    </section>
- 
-    <!-- CONTACT -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-tag">04</span>
-        <h2 class="section-title">Contact</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="contact-grid">
-        <a class="contact-item" href="mailto:sachaudhari1803@gmail.com">
-          <span class="contact-icon">✉</span>
-          <div>
-            <div class="contact-label">Email</div>
-            <div class="contact-value">sachaudhari1803@gmail.com</div>
-          </div>
-        </a>
-        <a class="contact-item" href="tel:+61469095839">
-          <span class="contact-icon">☎</span>
-          <div>
-            <div class="contact-label">Phone</div>
-            <div class="contact-value">+61 46 909 5839</div>
-          </div>
-        </a>
-        <a class="contact-item" href="https://github.com/csushildev" target="_blank">
-          <span class="contact-icon">⌥</span>
-          <div>
-            <div class="contact-label">GitHub</div>
-            <div class="contact-value">csushildev</div>
-          </div>
-        </a>
-      </div>
-    </section>
- 
-    <!-- LINKS -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-tag">05</span>
-        <h2 class="section-title">Links &amp; Resources</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="links-list">
-        <!-- a class="ext-link" href="https://github.com/csushildev/aws" target="_blank" Resume On Cloud — Technical Architecture Details/a -->
-        <!-- a class="ext-link" href="https://drive.google.com/file/d/1mM93CXBJlit7EcJG5Gt318EQtaG3g8uD/view?usp=sharing" target="_blank"Sushil_Chaudhari_Resume.pdf a -->
-        <a class="ext-link" href="https://github.com/csushildev" target="_blank"> GitHub Profile — csushildev </a>
-      </div>
-    </section>
- 
-    <footer>
-      <span>// Sushil Chaudhari — 2026</span>
-      <span>sushil.chaudhari [ at ] sec</span>
-    </footer>
- 
+    </div>
+  </header>
+
+  <!-- Toast Notification -->
+  <div id="toastBanner" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-xl border border-slate-700 flex items-center gap-2.5 text-xs font-mono">
+    <span class="text-emerald-400 dark:text-emerald-600 font-bold">●</span>
+    <span id="toastMessage">Profile updated</span>
   </div>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN DOSSIER CONTENT                                                  -->
+  <!-- ===================================================================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-14">
+
+    <!-- 1. EXECUTIVE HERO & ASSURANCE SUMMARY -->
+    <section class="bg-white dark:bg-[#111827] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 sm:p-10 relative overflow-hidden">
+      <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1E3A8A] via-[#0D9488] to-[#B45309]"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Left 8 Cols: Executive Narrative -->
+        <div class="lg:col-span-8 space-y-4">
+          <div class="inline-flex flex-wrap items-center gap-2">
+            <span class="font-mono text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-950 text-[#1E3A8A] dark:text-sky-300 border border-blue-200 dark:border-blue-800">
+              GOVERNANCE, RISK &amp; COMPLIANCE ASSURANCE // MELBOURNE, VIC
+            </span>
+            <span class="font-mono text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md bg-teal-50 dark:bg-emerald-950 text-[#0D9488] dark:text-emerald-300 border border-teal-200 dark:border-emerald-800">
+              IT Risk &amp; Controls Assurance
+            </span>
+            <span class="font-mono text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md bg-amber-50 dark:bg-amber-950 text-[#B45309] dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+              AI Governance &amp; ServiceNow IRM
+            </span>
+          </div>
+
+          <h1 id="heroName" class="font-serif text-3xl sm:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">
+            Sushil Chaudhari
+          </h1>
+
+          <p id="heroTitle" class="font-mono text-sm sm:text-base text-[#1E3A8A] dark:text-sky-400 font-semibold">
+            Senior GRC Analyst  |  IT Risk &amp; Controls Assurance  |  AI Governance &amp; ServiceNow IRM
+          </p>
+
+          <p id="heroSummary" class="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed max-w-3xl">
+            <!-- Dynamically populated -->
+          </p>
+
+          <!-- Primary CTA Buttons -->
+          <div id="heroLinksContainer" class="pt-3 flex flex-wrap items-center gap-3">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Right 4 Cols: Executive Assurance Dossier Summary Card -->
+        <div class="lg:col-span-4 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700/80 p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3">
+            <div>
+              <span class="font-mono text-[10px] uppercase tracking-widest text-slate-400 block">Assurance Profile</span>
+              <h2 class="font-serif font-bold text-base text-slate-900 dark:text-white">Executive Control Summary</h2>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+              ✓ Audit Ready
+            </span>
+          </div>
+
+          <dl id="heroMetricsList" class="space-y-3 text-xs">
+            <!-- Populated from JSON -->
+          </dl>
+
+          <div class="pt-3 border-t border-slate-200 dark:border-slate-700">
+            <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-2">Two-Chapter Career Progression</div>
+            <div class="space-y-1.5 text-xs">
+              <div class="p-2 rounded bg-blue-50/70 dark:bg-blue-950/50 border border-blue-200/70 dark:border-blue-800/70 text-slate-800 dark:text-slate-200">
+                <strong class="font-mono text-blue-800 dark:text-sky-300 block">2021 – Present (GRC &amp; Assurance):</strong>
+                ServiceNow IRM/GRC, ASIC RG 271 (TAL Life), APRA CPS 234, Federal &amp; State Gov Controls.
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">
+                <strong class="font-mono text-slate-800 dark:text-slate-200 block">2011 – 2021 (Engineering &amp; QA Foundation):</strong>
+                Enterprise Pega, Java, APIs &amp; QA across Macquarie Bank, Stanchart, Schwab &amp; BNY Mellon.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. INTERACTIVE REGULATORY FRAMEWORK CROSSWALK MATRIX -->
+    <section id="crosswalk" class="space-y-5 scroll-mt-24">
+      <div class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-blue-400">Section 01 // Regulatory Alignment</span>
+    <!-- 4. ENTERPRISE ENGAGEMENT & CONTROLS ASSURANCE LEDGER (TWO-CHAPTER PROGRESSION) -->
+    <section id="experience" class="space-y-6 scroll-mt-24">
+      <div class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div>
+          <span class="font-mono text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-blue-400">Section 03 // Career Progression &amp; Audit Ledger</span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">
+            From Engineering &amp; QA Foundation to GRC &amp; ServiceNow Assurance
+          </h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            Structured into two distinct career chapters: <strong>Recent GRC &amp; Regulatory Assurance (2021–Present, starting at TAL Life)</strong> built upon a <strong>10-Year Enterprise Development &amp; QA Foundation (2011–2021)</strong>.
+          </p>
+        </div>
+
+        <div class="text-xs font-mono text-slate-500 dark:text-slate-400">
+          Showing <span id="projectCountBadge" class="font-bold text-slate-900 dark:text-white">10</span> verified engagements
+        </div>
+      </div>
+
+      <div id="projectsLedger" class="space-y-8">
+        <!-- Dynamically populated in 2 Career Chapters from profileData.projects -->
+      </div>
+    </section>
+
+    <!-- 3. GRC CAPABILITIES, RISK OPERATIONS & TECHNICAL ASSURANCE ARSENAL -->
+    <section id="arsenal" class="space-y-5 scroll-mt-24">
+      <div class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div>
+          <span class="font-mono text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-blue-400">Section 02 // Control Domains</span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">
+            Core GRC, Risk &amp; Technical Assurance Arsenal
+          </h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            Bridging policy governance and audit workpapers with hands-on platform engineering across ServiceNow, Pega, Cloud, and AI.
+          </p>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="flex flex-wrap gap-1.5" id="skillCategoryTabs">
+          <button onclick="setSkillCategory('all')" data-cat="all" class="skill-tab-btn px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-slate-900 dark:bg-white text-white dark:text-slate-900 transition">
+            All Domains
+          </button>
+          <button onclick="setSkillCategory('Regulatory Frameworks')" data-cat="Regulatory Frameworks" class="skill-tab-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-500 transition">
+            🏛️ Frameworks
+          </button>
+          <button onclick="setSkillCategory('GRC & Audit Operations')" data-cat="GRC & Audit Operations" class="skill-tab-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-500 transition">
+            📋 Audit &amp; Risk Ops
+          </button>
+          <button onclick="setSkillCategory('AI Governance & Security')" data-cat="AI Governance & Security" class="skill-tab-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-500 transition">
+            🤖 AI Governance
+          </button>
+          <button onclick="setSkillCategory('Platforms & Engineering')" data-cat="Platforms & Engineering" class="skill-tab-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-500 transition">
+            ⚙️ Platforms &amp; Tech
+          </button>
+        </div>
+      </div>
+
+      <div id="skillsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <!-- Dynamically populated from profileData.skills -->
+      </div>
+    </section>
+
+    <!-- 4. ENTERPRISE ENGAGEMENT & CONTROLS ASSURANCE LEDGER (10 PROJECTS) -->
+    <section id="experience" class="space-y-5 scroll-mt-24">
+      <div class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div>
+          <span class="font-mono text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-blue-400">Section 03 // Audit &amp; Delivery Evidence</span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">
+            Enterprise Controls Assurance &amp; Delivery Ledger
+          </h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            15+ years of enterprise engagements across Government, Banking, and Insurance—mapped to regulatory frameworks and operational controls.
+          </p>
+        </div>
+
+        <div class="text-xs font-mono text-slate-500 dark:text-slate-400">
+          Showing <span id="projectCountBadge" class="font-bold text-slate-900 dark:text-white">10</span> verified engagements
+        </div>
+      </div>
+
+      <div id="projectsLedger" class="space-y-4">
+        <!-- Dynamically populated from profileData.projects -->
+      </div>
+    </section>
+
+    <!-- 5. ACCREDITATIONS, CERTIFICATIONS & ACADEMIC CREDENTIALS -->
+    <section id="credentials" class="space-y-5 scroll-mt-24">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+        <span class="font-mono text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-blue-400">Section 04 // Formal Accreditations</span>
+        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">
+          Certifications, Postgraduate &amp; Academic Credentials
+        </h2>
+      </div>
+
+      <div id="certificationsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Dynamically populated from profileData.certifications -->
+      </div>
+    </section>
+
+    <!-- 6. CONTACT, VERIFICATION & CLOUD REPOSITORY LINKS -->
+    <section id="contact" class="space-y-5 scroll-mt-24">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+        <span class="font-mono text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-blue-400">Section 05 // Dossier Verification &amp; Contact</span>
+        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">
+          Direct Contact &amp; Cloud Artifacts
+        </h2>
+      </div>
+
+      <div id="contactGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Dynamically populated -->
+      </div>
+
+      <div id="externalLinksList" class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+        <!-- Dynamically populated -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400 font-mono">
+      <div class="flex items-center gap-2">
+        <span>© 2026 Sushil Ashok Chaudhari · Senior GRC &amp; IT Risk Assurance Dossier</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span>Melbourne, Victoria, Australia</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- HIDDEN ADMIN POPUP: DATA & INTERVIEW PREP COMMAND MODAL               -->
+  <!-- (Triggered by clicking the blinking green dot in the top-left)        -->
+  <!-- ===================================================================== -->
+  <div id="jsonEditorModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 bg-slate-100 dark:bg-slate-800/90 border-b border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <span class="inline-flex h-3 w-3 rounded-full bg-[#10b981]"></span>
+          <div>
+            <span class="font-mono text-[11px] uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-bold">Private Admin Command Center</span>
+            <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white">
+              Cloud JSON Data Manager &amp; Interview Prep Switch
+            </h3>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button
+            onclick="togglePrepMode()"
+            id="modalPrepToggleBtn"
+            class="text-xs font-mono font-semibold px-3 py-1.5 rounded-lg border border-amber-400 bg-amber-50 dark:bg-amber-950 text-amber-900 dark:text-amber-200 hover:bg-amber-100 transition"
+          >
+            📋 Toggle Interview Checklist Mode
+          </button>
+          <label class="cursor-pointer text-xs font-mono font-semibold px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-300 dark:border-blue-700 text-blue-800 dark:text-blue-200 hover:bg-blue-100 transition">
+            ⬆ Upload .json File
+            <input type="file" accept=".json" class="hidden" onchange="handleJsonFileUpload(event)" />
+          </label>
+          <button onclick="downloadProfileJson()" class="text-xs font-mono font-semibold px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-slate-200 hover:bg-slate-50 transition">
+            ⬇ Download .json
+          </button>
+          <button onclick="applyLiveJsonEdits()" class="text-xs font-mono font-bold px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition">
+            ✓ Save &amp; Apply
+          </button>
+          <button onclick="closeJsonEditorModal()" class="text-sm font-mono px-2.5 py-1 text-slate-500 hover:text-slate-900 dark:hover:text-white">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Instructions Strip -->
+      <div class="px-6 py-2.5 bg-blue-50/80 dark:bg-blue-950/40 border-b border-blue-200 dark:border-blue-900 text-xs text-slate-700 dark:text-slate-300 flex flex-wrap items-center justify-between gap-2">
+        <span>
+          💡 <strong>Hidden Admin Control:</strong> Download the `.json` file, edit it anytime, and upload it back here to update the entire site without touching HTML.
+        </span>
+        <button onclick="resetToDefaultProfile()" class="text-xs font-mono text-rose-600 dark:text-rose-400 hover:underline font-semibold">
+          ↺ Reset to Default Data
+        </button>
+      </div>
+
+      <!-- JSON Textarea -->
+      <div class="p-4 flex-1 overflow-hidden flex flex-col bg-slate-950">
+        <textarea
+          id="jsonEditorTextarea"
+          class="w-full flex-1 min-h-[400px] bg-slate-950 text-emerald-300 font-mono text-xs leading-relaxed p-3 focus:outline-none resize-none"
+          spellcheck="false"
+        ></textarea>
+      </div>
+
+      <!-- Error Banner inside Modal -->
+      <div id="jsonErrorBanner" class="hidden px-6 py-2.5 bg-rose-600 text-white text-xs font-mono"></div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT ENGINE: DATA SCHEMA, NORMALIZER & DYNAMIC RENDERER         -->
+  <!-- ===================================================================== -->
+  <script>
+    const STORAGE_KEY_PROFILE = "sushil_executive_grc_profile_v4_clean";
+    const STORAGE_KEY_PREP_MODE = "sushil_executive_grc_prep_mode_v4";
+    const STORAGE_KEY_THEME = "sushil_executive_grc_theme_v4";
+
+    // Default Comprehensive Executive GRC Profile Data
+    // Zero mentions of DoD, Defence, or Clearance.
+    // ServiceNow is primary in the current role; GRC arc starts at TAL Life (May 2021); prior roles highlight Dev & QA foundation.
+    const DEFAULT_PROFILE_DATA = {
+      "schemaVersion": "2.2-GRC-Executive",
+      "fullName": "Sushil Chaudhari",
+      "professionalTitle": "Senior GRC Analyst  |  ServiceNow IRM & Controls Assurance  |  AI Governance",
+      "posture": {
+        "jurisdiction": "GOVERNANCE, RISK & COMPLIANCE ASSURANCE // MELBOURNE, VIC",
+        "platforms": "ServiceNow (Primary · CSA/CAD/IRM) · Pega CSSA · AWS/Azure",
+        "auditTenure": "5+ Yrs GRC & Assurance · 10+ Yrs Dev & QA",
+        "postgraduate": "PG Cert AI-Powered Cybersecurity (2026)"
+      },
+      "githubLink": "https://github.com/csushildev",
+      "linkedinLink": "https://www.linkedin.com/in/myselfsc",
+      "professionalSummary": "Governance, Risk, and Compliance (GRC) and Controls Assurance Lead with 15+ years of enterprise IT experience across Australian Federal and State Government, insurance (TAL Life), and banking (Macquarie Bank). Following a 10-year foundation in enterprise software development and QA automation, transitioned into regulatory compliance and controls assurance in 2021 (delivering ASIC RG 271 and APRA CPS 234 controls at TAL Life) and now use ServiceNow as my primary platform for workflow governance, access/SoD assurance, and release compliance. Combines hands-on ServiceNow (CSA/CAD) expertise with a Postgraduate Certificate in AI-Powered Cybersecurity to translate ACSC Essential Eight, ISM, ISO/IEC 27001, and APRA CPS 234/230 obligations into auditable operational controls.",
+      "contactInfo": {
+        "location": "Melbourne, VIC, Australia",
+        "phone": "+61 469 095 839",
+        "email": "sachaudhari1803@gmail.com",
+        "linkedin": "linkedin.com/in/myselfsc",
+        "github": "github.com/csushildev"
+      },
+      "frameworks": [
+        {
+          "id": "fw-e8-ism",
+          "code": "ACSC E8 & ISM",
+          "name": "ACSC Essential Eight & Australian Gov ISM",
+          "regulator": "ASD / ACSC (Federal & State Government)",
+          "scope": "Maturity Model (ML1–ML3), Patching SLAs, MFA, Least Privilege, and Government Controls.",
+          "interviewStudyNote": "Connect to your current Federal Government Service Connect role: explain how ServiceNow change tickets and vulnerability scan logs prove patching SLA compliance.",
+          "verified": true
+        },
+        {
+          "id": "fw-iso27001",
+          "code": "ISO/IEC 27001:2022",
+          "name": "ISO/IEC 27001:2022 (ISMS & Annex A)",
+          "regulator": "International / Enterprise Standard",
+          "scope": "Clauses 4–10 ISMS, Statement of Applicability (SoA), Annex A Controls, and Internal Audit.",
+          "interviewStudyNote": "Be ready to explain how a risk assessment feeds the Statement of Applicability (SoA) and how internal audits test Annex A controls.",
+          "verified": true
+        },
+        {
+          "id": "fw-apra",
+          "code": "APRA CPS 234 & 230",
+          "name": "APRA CPS 234 & CPS 230",
+          "regulator": "APRA (Insurance & Banking)",
+          "scope": "Information Security, Operational Resilience, Third-Party Risk, and 72-Hr Incident Notification.",
+          "interviewStudyNote": "Anchor this to TAL Life (2021–2022) and your engineering background at Macquarie Bank—explain how system controls satisfy CPS 234.",
+          "verified": true
+        },
+        {
+          "id": "fw-privacy-rg271",
+          "code": "ASIC RG 271 & OAIC NDB",
+          "name": "ASIC RG 271 & Privacy Act (OAIC NDB)",
+          "regulator": "ASIC & OAIC (Dispute Resolution & Privacy)",
+          "scope": "Statutory Complaints Handling SLAs, Australian Privacy Principles (APPs), and 30-Day Breach Assessment.",
+          "interviewStudyNote": "Your TAL Life ASIC RG 271 Complaints Handling delivery is the pivot point where your career moved directly into regulatory compliance.",
+          "verified": true
+        },
+        {
+          "id": "fw-ai-gov",
+          "code": "ISO 42001 & OWASP LLM",
+          "name": "ISO/IEC 42001 & OWASP LLM Top 10",
+          "regulator": "AI Governance & Model Risk Assurance",
+          "scope": "AI Management Systems, Model Risk Tiering, GenAI Guardrails, PII Redaction, and HITL.",
+          "interviewStudyNote": "Highlight your 2026 Postgraduate Certificate in AI-Powered Cybersecurity and practical Co-Pilot / LLM guardrail checks.",
+          "verified": false
+        },
+        {
+          "id": "fw-soc2-itgc",
+          "code": "SERVICENOW IRM & ITGC",
+          "name": "ServiceNow IRM, ITGC & VPDSS Controls",
+          "regulator": "Enterprise Assurance / OVIC (Victoria)",
+          "scope": "ServiceNow Governance, Design vs. Operating Effectiveness, Access Reviews (RBAC/SoD), and Change Gates.",
+          "interviewStudyNote": "Emphasize ServiceNow as your primary tool in your current project, backed by 10+ years of QA/engineering traceability.",
+          "verified": true
+        }
+      ],
+      "skills": [
+        { "id": "sk-15", "name": "ServiceNow Platform & IRM/GRC (Primary Tool · CSA & CAD)", "category": "Platforms & Engineering", "frameworks": ["fw-e8-ism", "fw-iso27001", "fw-soc2-itgc"], "link": "#", "verified": true },
+        { "id": "sk-1", "name": "ACSC Essential Eight & Australian Gov ISM", "category": "Regulatory Frameworks", "frameworks": ["fw-e8-ism"], "link": "#", "verified": true },
+        { "id": "sk-2", "name": "ISO/IEC 27001:2022 (ISMS Clauses 4–10 & Annex A)", "category": "Regulatory Frameworks", "frameworks": ["fw-iso27001"], "link": "#", "verified": true },
+        { "id": "sk-3", "name": "APRA CPS 234 (InfoSec) & CPS 230 (Operational Risk)", "category": "Regulatory Frameworks", "frameworks": ["fw-apra"], "link": "#", "verified": true },
+        { "id": "sk-4", "name": "ASIC RG 271 (Dispute Resolution) & Privacy Act (OAIC NDB)", "category": "Regulatory Frameworks", "frameworks": ["fw-privacy-rg271"], "link": "#", "verified": true },
+        { "id": "sk-5", "name": "Victorian VPDSS, NIST CSF 2.0 & SOC 2 (Type I/II)", "category": "Regulatory Frameworks", "frameworks": ["fw-soc2-itgc"], "link": "#", "verified": true },
+        { "id": "sk-6", "name": "ITGC Design & Operating Effectiveness Testing", "category": "GRC & Audit Operations", "frameworks": ["fw-soc2-itgc", "fw-iso27001", "fw-apra"], "link": "#", "verified": true },
+        { "id": "sk-7", "name": "Risk Registers, Inherent/Residual Scoring & Treatment Plans", "category": "GRC & Audit Operations", "frameworks": ["fw-iso27001", "fw-apra"], "link": "#", "verified": true },
+        { "id": "sk-8", "name": "Audit Workpapers, Sampling Rationale & Defensible Findings (5 Cs)", "category": "GRC & Audit Operations", "frameworks": ["fw-soc2-itgc", "fw-iso27001"], "link": "#", "verified": false },
+        { "id": "sk-9", "name": "IAM, Zero Trust, RBAC & Segregation of Duties (SoD)", "category": "GRC & Audit Operations", "frameworks": ["fw-e8-ism", "fw-soc2-itgc"], "link": "#", "verified": true },
+        { "id": "sk-10", "name": "Third-Party / Vendor Risk Management (TPRM) & BIA (RTO/RPO)", "category": "GRC & Audit Operations", "frameworks": ["fw-apra", "fw-iso27001"], "link": "#", "verified": false },
+        { "id": "sk-11", "name": "Statement of Applicability (SoA) & Policy Lifecycle Governance", "category": "GRC & Audit Operations", "frameworks": ["fw-iso27001"], "link": "#", "verified": false },
+        { "id": "sk-12", "name": "ISO/IEC 42001 & NIST AI RMF Model Risk Tiering", "category": "AI Governance & Security", "frameworks": ["fw-ai-gov"], "link": "#", "verified": false },
+        { "id": "sk-13", "name": "OWASP Top 10 for LLMs, GenAI Guardrails & PII Redaction", "category": "AI Governance & Security", "frameworks": ["fw-ai-gov", "fw-privacy-rg271"], "link": "#", "verified": true },
+        { "id": "sk-14", "name": "Human-in-the-Loop (HITL) Approval Gates & AI Impact Assessments", "category": "AI Governance & Security", "frameworks": ["fw-ai-gov"], "link": "#", "verified": true },
+        { "id": "sk-16", "name": "Pega PRPC, BPM & CDH Enterprise Workflow Governance", "category": "Platforms & Engineering", "frameworks": ["fw-e8-ism", "fw-apra", "fw-privacy-rg271"], "link": "#", "verified": true },
+        { "id": "sk-17", "name": "AWS & Azure Cloud Security Baselines (AWS SAA & AZ-900)", "category": "Platforms & Engineering", "frameworks": ["fw-e8-ism", "fw-soc2-itgc"], "link": "https://github.com/csushildev/aws", "verified": true },
+        { "id": "sk-18", "name": "Kubernetes & CI/CD Automated Compliance Gates", "category": "Platforms & Engineering", "frameworks": ["fw-e8-ism", "fw-soc2-itgc"], "link": "https://github.com/csushildev/kubernetes", "verified": true },
+        { "id": "sk-19", "name": "Docker & Container Security Baselines", "category": "Platforms & Engineering", "frameworks": ["fw-e8-ism", "fw-soc2-itgc"], "link": "https://github.com/csushildev/containers-on-bluewhale", "verified": true },
+        { "id": "sk-20", "name": "Python, Cypress.js & Automated Control Verification", "category": "Platforms & Engineering", "frameworks": ["fw-e8-ism", "fw-ai-gov", "fw-soc2-itgc"], "link": "https://github.com/csushildev/pyWebApp2.git", "verified": true },
+        { "id": "sk-21", "name": "JavaScript, Vue.js & Web Application Testing", "category": "Platforms & Engineering", "frameworks": ["fw-soc2-itgc"], "link": "https://github.com/csushildev/vuejs", "verified": true },
+        { "id": "sk-22", "name": "Splunk, SIEM Log Analysis & REST API Validation", "category": "Platforms & Engineering", "frameworks": ["fw-e8-ism", "fw-apra", "fw-soc2-itgc"], "link": "#", "verified": true }
+      ],
+      "projects": [
+        {
+          "id": "proj-fed-gov-act",
+          "era": "grc",
+          "name": "Federal Government Agency (Service Connect Program), ACT",
+          "role": "ServiceNow & Controls Assurance Lead / Forward Deployed Engineer",
+          "tenure": "June 2024 – Present",
+          "sector": "Chapter I: GRC, Regulatory Compliance & Controls Assurance (Primary Platform: ServiceNow)",
+          "frameworks": ["fw-e8-ism", "fw-ai-gov", "fw-soc2-itgc"],
+          "frameworkBadges": ["ServiceNow (Primary Platform)", "Australian Gov ISM", "Essential Eight", "RBAC & SoD Controls", "Automated Assurance (Cypress/Python)"],
+          "description": "Using ServiceNow as the primary enterprise platform on the Service Connect program to design governed workflows, enforce role-based access control (RBAC) and Segregation of Duties (SoD), and manage change/release compliance.Lead QA and controls assurance across ServiceNow, Adobe AEM, and Pega integrations, utilizing Cypress.js, Python, and Co-Pilot guardrails to produce verifiable audit evidence aligned with Australian Government ISM and Essential Eight maturity targets.",
+          "grcDeliverable": "2-Minute STAR Rehearsal Prompt: Emphasize ServiceNow as your primary daily platform—explain how you govern ServiceNow ACLs, change approvals, and automated test evidence to prove ISM & Essential Eight operating effectiveness.",
+          "verified": true
+        },
+        {
+          "id": "proj-dtp",
+          "era": "grc",
+          "name": "Department of Transport & Planning (DTP), Victoria",
+          "role": "Senior Consultant & Release Governance Lead (Cloud Payments)",
+          "tenure": "Jul 2022 – Feb 2024",
+          "sector": "Chapter I: GRC, Regulatory Compliance & Controls Assurance",
+          "frameworks": ["fw-soc2-itgc", "fw-e8-ism"],
+          "frameworkBadges": ["Victorian VPDSS", "Payment Approval SoD", "ITGC Change Gates", "Cloud Payment Controls", "Audit Trail Assurance"],
+          "description": "Led workflow governance and DevSecOps release assurance for a cloud-architected Payments platform processing commercial operator payments across Victoria's Bus, Rail, Tram, and Ferry networks. Enforced Victorian Protective Data Security Standards (VPDSS), strict financial delegation Segregation of Duties (SoD), and traceable CI/CD deployment gates.",
+          "grcDeliverable": "2-Minute STAR Rehearsal Prompt: Walk through how you enforced payment approval Segregation of Duties (SoD) and release gate evidence so no single user could both initiate and approve public transport payments.",
+          "verified": true
+        },
+        {
+          "id": "proj-services-au",
+          "era": "grc",
+          "name": "Services Australia",
+          "role": "Acting Assistant Director / Senior Technical Specialist (Pension Rules Governance)",
+          "tenure": "Apr 2022 – Jul 2022",
+          "sector": "Chapter I: GRC, Regulatory Compliance & Controls Assurance",
+          "frameworks": ["fw-e8-ism", "fw-privacy-rg271"],
+          "frameworkBadges": ["Federal Gov ISM", "Statutory Rule Governance", "Change Traceability", "Executive Risk Briefing"],
+          "description": "Guided governance and delivery for a headless Pension Calculation business-rules platform based on citizen circumstance changes. Established strict rule-authoring controls, peer-review approval workflows, and audit logging so policy teams could update statutory rates safely without unauthorized production changes.",
+          "grcDeliverable": "2-Minute STAR Rehearsal Prompt: Highlight your Acting Assistant Director experience—briefing senior executives on delivery risk and governing statutory business rules.",
+          "verified": true
+        },
+        {
+          "id": "proj-tal",
+          "era": "grc",
+          "name": "TAL Life (Areteans)",
+          "role": "Lead Consultant — ASIC RG 271 Complaints Handling & Regulatory Compliance",
+          "tenure": "May 2021 – Apr 2022",
+          "sector": "Chapter I: GRC Transition Milestone — Insurance Regulatory Compliance",
+          "frameworks": ["fw-apra", "fw-privacy-rg271"],
+          "frameworkBadges": ["ASIC RG 271 (IDR)", "APRA CPS 234", "Privacy Act (APPs)", "Statutory SLA Timers", "Mandatory Audit Logs"],
+          "description": "Pivotal regulatory compliance engagement leading end-to-end delivery and assurance of the ASIC RG 271 Internal Dispute Resolution (Complaints Handling) module for one of Australia's largest APRA-regulated life insurers. Translated statutory ASIC obligations and APRA CPS 234 information security controls into mandatory SLA breach timers, sensitive claim data access restrictions, and immutable audit trails.",
+          "grcDeliverable": "2-Minute STAR Rehearsal Prompt: This is where your dedicated GRC & Regulatory Compliance journey began—explain how you translated ASIC RG 271 legal mandates into system controls and audit evidence.",
+          "verified": true
+        },
+        {
+          "id": "proj-macquarie",
+          "era": "engineering",
+          "name": "Macquarie Bank (Virtusa)",
+          "role": "Senior Pega Consultant — Post-Settlement Servicing & Collections Engineering",
+          "tenure": "Jun 2018 – May 2021",
+          "sector": "Chapter II: Enterprise Software Development & QA Foundation",
+          "frameworks": ["fw-apra", "fw-soc2-itgc"],
+          "frameworkBadges": ["Enterprise Development & QA", "Banking Workflows", "Collections & Mortgage Systems", "Defect RCA"],
+          "description": "Engineered and tested Post-Settlement Account Servicing and Collections applications across personal banking cash, card, and mortgage portfolios using Pega Collections, CDH, and CS for Financial Services. Built deep foundational expertise in how banking transaction systems, QA regression suites, and production root-cause analysis (RCA) operate under the hood.",
+          "grcDeliverable": "2-Minute STAR Rehearsal Prompt: Frame this as your technical foundation—3 years inside Macquarie Bank building and testing core banking workflows gives you an unfair advantage when auditing financial ITGCs.",
+          "verified": true
+        },
+        {
+          "id": "proj-stanchart",
+          "era": "engineering",
+          "name": "Standard Chartered Bank (Synechron)",
+          "role": "Senior Developer — APAC Retail Banking Onboarding (CASA & CCPL)",
+          "tenure": "Nov 2015 – May 2018",
+          "sector": "Chapter II: Enterprise Software Development & QA Foundation",
+          "frameworks": ["fw-iso27001", "fw-apra"],
+          "frameworkBadges": ["Retail Banking Development", "CASA & CCPL Onboarding", "APAC Framework Engineering", "Quality Assurance"],
+          "description": "Worked on-site with client teams to develop and test an extensible customer onboarding framework (CASA & CCPL) for retail banking across the APAC region, validating identity and onboarding data flows.",
+          "grcDeliverable": "2-Minute STAR Rehearsal Prompt: Shows your hands-on software engineering and QA background in multi-country retail banking onboarding.",
+          "verified": true
+        },
+        {
+          "id": "proj-asurion",
+          "era": "engineering",
+          "name": "Asurion LLC (Synechron)",
+          "role": "Offshore Module SPOC & Senior Developer (Device Insurance)",
+          "tenure": "Nov 2015 – May 2018",
+          "sector": "Chapter II: Enterprise Software Development & QA Foundation",
+          "frameworks": ["fw-soc2-itgc"],
+          "frameworkBadges": ["Application Development", "Production Support & QA", "Offshore Module SPOC", "Pega CPM"],
+          "description": "Served as Single Point of Contact (SPOC) for offshore development modules and production issue resolution on a customer service device insurance platform.",
+          "grcDeliverable": "2-Minute STAR Rehearsal Prompt: Highlights end-to-end SDLC ownership, release testing, and production defect triage.",
+          "verified": true
+        },
+        {
+          "id": "proj-amex",
+          "era": "engineering",
+          "name": "American Express (Virtusa)",
+          "role": "Developer — Asset Management Process & Performance Engineering",
+          "tenure": "Jul 2015 – Nov 2015",
+          "sector": "Chapter II: Enterprise Software Development & QA Foundation",
+          "frameworks": ["fw-soc2-itgc"],
+          "frameworkBadges": ["Process Engineering", "Performance Tuning", "Asset Management Tech"],
+          "description": "Delivered application process and performance improvements within the Asset Management technology team.",
+          "grcDeliverable": "2-Minute STAR Rehearsal Prompt: Demonstrates enterprise financial system optimization and QA rigor.",
+          "verified": true
+        },
+        {
+          "id": "proj-schwab",
+          "era": "engineering",
+          "name": "Charles Schwab (Infosys)",
+          "role": "Senior Developer — Real-Time Market Position Monitoring",
+          "tenure": "Aug 2014 – Jul 2015",
+          "sector": "Chapter II: Enterprise Software Development & QA Foundation",
+          "frameworks": ["fw-soc2-itgc"],
+          "frameworkBadges": ["Java & JavaScript", "Pega Development", "Real-Time Data Validation", "Developer Mentoring"],
+          "description": "Oversaw multiple software modules and mentored developers on a real-time customer position monitoring application processing high-frequency market data.",
+          "grcDeliverable": "2-Minute STAR Rehearsal Prompt: Proves strong technical grounding in Java/JavaScript and high-frequency data integrity testing.",
+          "verified": true
+        },
+        {
+          "id": "proj-bny",
+          "era": "engineering",
+          "name": "BNY Mellon",
+          "role": "Java Developer — Treasury, Asset Servicing & Liquidity Dashboards",
+          "tenure": "Jul 2011 – Jul 2014",
+          "sector": "Chapter II: Enterprise Software Development & QA Foundation",
+          "frameworks": ["fw-soc2-itgc"],
+          "frameworkBadges": ["Core Java Development", "Treasury & Liquidity Systems", "Asset Servicing"],
+          "description": "Started enterprise career as a Java Developer across Treasury Product Onboarding, Asset Servicing, and Liquidity Dashboard projects.",
+          "grcDeliverable": "2-Minute STAR Rehearsal Prompt: Early software engineering foundation in institutional banking.",
+          "verified": true
+        }
+      ],
+      "certifications": [
+        { "id": "cert-5", "code": "SN-CSA/CAD", "name": "ServiceNow Certified System Administrator (CSA) & Application Developer (CAD)", "issuer": "ServiceNow (Primary Platform · Includes IRM/GRC Implementation)", "category": "Primary Platform", "verified": true },
+        { "id": "cert-1", "code": "PG-AI", "name": "Postgraduate Certificate in AI-Powered Cybersecurity", "issuer": "IIT Roorkee & Futurense (2026)", "category": "Postgraduate", "verified": true },
+        { "id": "cert-4", "code": "ISC2-CC", "name": "ISC2 Certified in Cybersecurity (CC)", "issuer": "ISC2", "category": "Cybersecurity & Risk", "verified": true },
+        { "id": "cert-3", "code": "MQ-GRC", "name": "GRC Fundamentals (In Progress)", "issuer": "Macquarie University (Coursera)", "category": "Australian GRC", "verified": false },
+        { "id": "cert-2", "code": "COL-AI", "name": "AI Cybersecurity & Governance (Executive Program)", "issuer": "Columbia+ Executive Education", "category": "AI Governance", "verified": true },
+        { "id": "cert-6", "code": "AWS-SAA", "name": "AWS Certified Solutions Architect – Associate", "issuer": "Amazon Web Services", "category": "Cloud Security", "verified": true },
+        { "id": "cert-7", "code": "AZ-900", "name": "Microsoft Certified: Azure Fundamentals (AZ-900)", "issuer": "Microsoft Azure", "category": "Cloud Governance", "verified": true },
+        { "id": "cert-8", "code": "PEGA", "name": "Pega CLSA-A / CSSA / CPDC & PRINCE2 Agile Practitioner", "issuer": "Pegasystems & AXELOS · B.E. IT (University of Pune)", "category": "Engineering Foundation", "verified": true }
+      ],
+      "links": [
+        {
+          "url": "https://drive.google.com/file/d/1mM93CXBJlit7EcJG5Gt318EQtaG3g8uD/view?usp=sharing",
+          "text": "Download Resume (PDF)",
+          "badge": "PDF Dossier",
+          "primary": true
+        },
+        {
+          "url": "https://github.com/csushildev",
+          "text": "GitHub (@csushildev)",
+          "badge": "GitHub",
+          "primary": false
+        },
+        {
+          "url": "https://www.linkedin.com/in/myselfsc",
+          "text": "LinkedIn (myselfsc)",
+          "badge": "LinkedIn",
+          "primary": false
+        },
+        {
+          "url": "mailto:sachaudhari1803@gmail.com",
+          "text": "Email (sachaudhari1803@gmail.com)",
+          "badge": "Direct Contact",
+          "primary": false
+        },
+        {
+          "url": "https://github.com/csushildev/aws",
+          "text": "See the technical details of this |Resume On Cloud|",
+          "badge": "Cloud Architecture",
+          "primary": false
+        },
+        {
+          "url": "https://docs.google.com/document/d/1hqf3fSxAU6mQuwoqHkHs4EcJ4ahSvXsS/edit?usp=sharing&ouid=100204338687709950733&rtpof=true&sd=true",
+          "text": "Editable GRC CV (Google Docs)",
+          "badge": "Cloud Doc",
+          "primary": false
+        }
+      ]
+    };
+
+    // Runtime State
+    let profileData = JSON.parse(JSON.stringify(DEFAULT_PROFILE_DATA));
+    let prepModeActive = false;
+    let activeFrameworkId = null;
+    let activeSkillCategory = "all";
+
+    // =========================================================================
+    // NORMALIZER: SUPPORTS BOTH NEW GRC SCHEMA & LEGACY CLOUD RESUME JSON
+    // =========================================================================
+    function normalizeUploadedJson(rawObj) {
+      if (!rawObj || typeof rawObj !== "object") {
+        throw new Error("Uploaded file is not a valid JSON object.");
+      }
+
+      // Start from current or default structure so no GRC visual sections break
+      const merged = JSON.parse(JSON.stringify(DEFAULT_PROFILE_DATA));
+
+      if (rawObj.fullName) merged.fullName = rawObj.fullName;
+      if (rawObj.professionalTitle) merged.professionalTitle = rawObj.professionalTitle;
+      if (rawObj.githubLink) merged.githubLink = rawObj.githubLink;
+      if (rawObj.linkedinLink) merged.linkedinLink = rawObj.linkedinLink;
+      if (rawObj.professionalSummary) merged.professionalSummary = rawObj.professionalSummary;
+      if (rawObj.posture && typeof rawObj.posture === "object") {
+        merged.posture = { ...merged.posture, ...rawObj.posture };
+      }
+      if (rawObj.contactInfo && typeof rawObj.contactInfo === "object") {
+        merged.contactInfo = { ...merged.contactInfo, ...rawObj.contactInfo };
+      }
+
+      // Frameworks
+      if (Array.isArray(rawObj.frameworks) && rawObj.frameworks.length > 0) {
+        merged.frameworks = rawObj.frameworks;
+      }
+
+      // Skills (handles both enriched objects and simple {name, link} objects)
+      if (Array.isArray(rawObj.skills) && rawObj.skills.length > 0) {
+        merged.skills = rawObj.skills.map((sk, idx) => {
+          if (typeof sk === "string") {
+            return {
+              id: `sk-custom-${idx}`,
+              name: sk,
+              category: "Platforms & Engineering",
+              frameworks: [],
+              link: "#",
+              verified: true
+            };
+          }
+          return {
+            id: sk.id || `sk-custom-${idx}`,
+            name: sk.name || "Unnamed Skill",
+            category: sk.category || "Platforms & Engineering",
+            frameworks: Array.isArray(sk.frameworks) ? sk.frameworks : [],
+            link: sk.link || "#",
+            verified: typeof sk.verified === "boolean" ? sk.verified : true
+          };
+        });
+      }
+
+      // Projects (handles both enriched GRC projects and simple {name, tenure, description} objects)
+      if (Array.isArray(rawObj.projects) && rawObj.projects.length > 0) {
+        merged.projects = rawObj.projects.map((p, idx) => {
+          const cleanName = (p.name || "Enterprise Engagement").replace(/\bDoD\b/gi, "Federal Government Agency").replace(/\bDefence\b/gi, "Federal Government");
+          return {
+            id: p.id || `proj-custom-${idx}`,
+            era: p.era || (idx <= 3 ? "grc" : "engineering"),
+            name: cleanName,
+            role: p.role || (idx <= 3 ? "GRC & Controls Assurance Lead" : "Senior Developer & QA Lead"),
+            tenure: p.tenure || "",
+            sector: p.sector || (idx <= 3 ? "Chapter I: GRC, Regulatory Compliance & Controls Assurance" : "Chapter II: Enterprise Software Development & QA Foundation"),
+            frameworks: Array.isArray(p.frameworks) ? p.frameworks : ["fw-soc2-itgc"],
+            frameworkBadges: Array.isArray(p.frameworkBadges)
+              ? p.frameworkBadges
+              : (Array.isArray(p.badges) ? p.badges : ["Controls Assurance", "Enterprise Governance"]),
+            description: (p.description || "").replace(/\bDoD\b/gi, "Federal Government Agency").replace(/\bDefence\b/gi, "Federal Government"),
+            grcDeliverable: p.grcDeliverable || "Verify control design, operating effectiveness evidence, and stakeholder risk reporting for this engagement.",
+            verified: typeof p.verified === "boolean" ? p.verified : true
+          };
+        });
+      }
+
+      // Links
+      if (Array.isArray(rawObj.links) && rawObj.links.length > 0) {
+        merged.links = rawObj.links.map((l, idx) => ({
+          url: l.url || "#",
+          text: l.text || l.url || `Resource Link ${idx + 1}`,
+      // Update Prep Mode Banner & Modal Toggle Button
+      const prepBanner = document.getElementById("prepAuditBanner");
+      const modalPrepBtn = document.getElementById("modalPrepToggleBtn");
+
+      const allVerifiable = [
+        ...(profileData.frameworks || []),
+        ...(profileData.skills || []),
+        ...(profileData.projects || []),
+        ...(profileData.certifications || [])
+      ];
+      const verifiedCount = allVerifiable.filter(i => i.verified).length;
+      const totalCount = allVerifiable.length || 1;
+      const pct = Math.round((verifiedCount / totalCount) * 100);
+
+      document.getElementById("prepProgressBar").style.width = `${pct}%`;
+      document.getElementById("prepProgressText").textContent = `${verifiedCount} / ${totalCount} Ready (${pct}%)`;
+
+      if (prepModeActive) {
+        prepBanner.classList.remove("hidden");
+        if (modalPrepBtn) {
+          modalPrepBtn.textContent = "📋 Hide Interview Checklist Mode (Currently ON)";
+          modalPrepBtn.className = "text-xs font-mono font-bold px-3 py-1.5 rounded-lg border-2 border-slate-900 bg-amber-400 text-slate-950 transition";
+        }
+      } else {
+        prepBanner.classList.add("hidden");
+        if (modalPrepBtn) {
+          modalPrepBtn.textContent = "📋 Enable Interview Checklist Mode";
+          modalPrepBtn.className = "text-xs font-mono font-semibold px-3 py-1.5 rounded-lg border border-amber-400 bg-amber-50 dark:bg-amber-950 text-amber-900 dark:text-amber-200 hover:bg-amber-100 transition";
+        }
+      }
+    }
+
+    function saveToStorage(toastText) {
+      try {
+        localStorage.setItem(STORAGE_KEY_PROFILE, JSON.stringify(profileData));
+        if (toastText) showToast(toastText);
+      } catch (err) {
+        console.error("Storage save error:", err);
+      }
+      renderAll();
+    }
+
+    function showToast(msg) {
+      const banner = document.getElementById("toastBanner");
+      document.getElementById("toastMessage").textContent = msg;
+      banner.classList.remove("hidden");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        banner.classList.add("hidden");
+      }, 2600);
+    }
+
+    // =========================================================================
+    // THEME & INTERVIEW PREP CHECKLIST MODE TOGGLES
+    // =========================================================================
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle("dark");
+      localStorage.setItem(STORAGE_KEY_THEME, isDark ? "dark" : "light");
+      updateThemeButtonUI();
+    }
+
+    function updateThemeButtonUI() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const btn = document.getElementById("themeToggleBtn");
+      btn.innerHTML = isDark ? "☀️ Ivory Dossier" : "🌙 Boardroom Dark";
+    }
+
+    function togglePrepMode() {
+      prepModeActive = !prepModeActive;
+      localStorage.setItem(STORAGE_KEY_PREP_MODE, String(prepModeActive));
+      renderAll();
+      showToast(prepModeActive ? "Interview Prep Checklist Mode ON" : "Switched to Public Recruiter View");
+    }
+
+    function toggleItemVerified(section, itemId) {
+      const list = profileData[section];
+      if (!Array.isArray(list)) return;
+      const target = list.find(i => i.id === itemId);
+      if (target) {
+        target.verified = !target.verified;
+        saveToStorage(`${target.verified ? 'Marked Ready to Defend:' : 'Flagged for Study Review:'} ${target.code || target.name}`);
+      }
+    }
+
+    function matchesPrepFilter(verifiedState) {
+      if (!prepModeActive) return true;
+      const filterEl = document.getElementById("prepFilterSelect");
+      const val = filterEl ? filterEl.value : "all";
+      if (val === "unverified") return !verifiedState;
+      if (val === "verified") return !!verifiedState;
+      return true;
+    }
+
+    // =========================================================================
+    // CROSSWALK & SKILL CATEGORY FILTERS
+    // =========================================================================
+    function setActiveFramework(fwId) {
+      activeFrameworkId = (activeFrameworkId === fwId) ? null : fwId;
+      renderAll();
+    }
+
+    function setSkillCategory(cat) {
+      activeSkillCategory = cat;
+      document.querySelectorAll(".skill-tab-btn").forEach(btn => {
+        if (btn.getAttribute("data-cat") === cat) {
+          btn.className = "skill-tab-btn px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-blue-700 text-white shadow-sm transition";
+        } else {
+          btn.className = "skill-tab-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-500 transition";
+        }
+      });
+      renderSkills();
+    }
+
+    // =========================================================================
+    // RENDERING FUNCTIONS
+    // =========================================================================
+    function renderHeaderAndHero() {
+      document.getElementById("navFullName").textContent = profileData.fullName;
+      document.getElementById("heroName").textContent = profileData.fullName;
+      document.getElementById("heroTitle").textContent = profileData.professionalTitle;
+      document.getElementById("heroSummary").textContent = profileData.professionalSummary;
+
+      if (profileData.posture) {
+        document.getElementById("postureJurisdiction").textContent = profileData.posture.jurisdiction || "GOVERNANCE, RISK & COMPLIANCE ASSURANCE // MELBOURNE, VIC";
+        document.getElementById("posturePlatforms").textContent = `PLATFORMS: ${profileData.posture.platforms || 'ServiceNow (CSA/CAD) · Pega CSSA · AWS/Azure'}`;
+        document.getElementById("postureAuditTenure").textContent = `EXPERIENCE: ${profileData.posture.auditTenure || '15+ Years Enterprise IT & Assurance'}`;
+      }
+
+      // Hero Action Buttons
+      const linksContainer = document.getElementById("heroLinksContainer");
+      linksContainer.innerHTML = (profileData.links || []).slice(0, 4).map((l, idx) => {
+        const isPrimary = idx === 0 || l.primary;
+        return `
+          <a href="${l.url}" target="${l.url.startsWith('mailto:') ? '_self' : '_blank'}" rel="noopener noreferrer"
+             class="${isPrimary
+               ? 'px-5 py-2.5 rounded-xl bg-[#1E3A8A] hover:bg-blue-900 text-white font-semibold text-xs sm:text-sm shadow-sm transition flex items-center gap-2'
+               : 'px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-medium text-xs sm:text-sm transition flex items-center gap-2'}">
+            <span>${l.text}</span>
+            <span class="font-mono text-[10px] opacity-75">↗</span>
+          </a>
+        `;
+      }).join("");
+
+      // Hero Right Dossier Summary Metrics (Strictly zero clearance mentions)
+      const metricsEl = document.getElementById("heroMetricsList");
+      metricsEl.innerHTML = `
+        <div class="flex justify-between py-1.5 border-b border-slate-200/70 dark:border-slate-700/60">
+          <dt class="text-slate-500 dark:text-slate-400 font-medium">EXPERIENCE</dt>
+          <dd class="font-mono font-semibold text-slate-900 dark:text-white text-right">${profileData.posture?.auditTenure || '15+ Years Enterprise IT & Assurance'}</dd>
+        </div>
+        <div class="flex justify-between py-1.5 border-b border-slate-200/70 dark:border-slate-700/60">
+          <dt class="text-slate-500 dark:text-slate-400 font-medium">LOCATION</dt>
+          <dd class="font-mono font-semibold text-emerald-700 dark:text-emerald-400 text-right">${profileData.contactInfo?.location || 'Melbourne, VIC, Australia'}</dd>
+        </div>
+        <div class="flex justify-between py-1.5 border-b border-slate-200/70 dark:border-slate-700/60">
+          <dt class="text-slate-500 dark:text-slate-400 font-medium">PLATFORMS</dt>
+          <dd class="font-mono font-semibold text-slate-900 dark:text-white text-right">${profileData.posture?.platforms || 'ServiceNow (CSA/CAD) · Pega CSSA · AWS/Azure'}</dd>
+        </div>
+        <div class="flex justify-between py-1.5">
+          <dt class="text-slate-500 dark:text-slate-400 font-medium">POSTGRADUATE</dt>
+          <dd class="font-mono font-semibold text-[#1E3A8A] dark:text-sky-400 text-right">${profileData.posture?.postgraduate || 'PG Cert AI-Powered Cybersecurity (2026)'}</dd>
+        </div>
+      `;
+
+      // Update Prep Mode Banner & Toggle Button
+      const prepBanner = document.getElementById("prepAuditBanner");
+      const prepBtn = document.getElementById("prepModeToggleBtn");
+      const prepDot = document.getElementById("prepModeIndicator");
+
+      const allVerifiable = [
+        ...(profileData.frameworks || []),
+        ...(profileData.skills || []),
+        ...(profileData.projects || []),
+        ...(profileData.certifications || [])
+      ];
+      const verifiedCount = allVerifiable.filter(i => i.verified).length;
+      const totalCount = allVerifiable.length || 1;
+      const pct = Math.round((verifiedCount / totalCount) * 100);
+
+      document.getElementById("prepProgressBar").style.width = `${pct}%`;
+      document.getElementById("prepProgressText").textContent = `${verifiedCount} / ${totalCount} Ready (${pct}%)`;
+
+      if (prepModeActive) {
+        prepBanner.classList.remove("hidden");
+        prepDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping";
+        prepBtn.className = "text-xs font-bold px-3.5 py-2 rounded-lg border-2 transition flex items-center gap-2 bg-amber-500 text-slate-950 border-slate-900 shadow-sm";
+      } else {
+        prepBanner.classList.add("hidden");
+        prepDot.className = "w-2 h-2 rounded-full bg-amber-500";
+        prepBtn.className = "text-xs font-semibold px-3 py-2 rounded-lg border transition flex items-center gap-1.5 bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-700 hover:bg-amber-100";
+      }
+    }
+
+    function renderFrameworks() {
+      const clearBtn = document.getElementById("clearCrosswalkBtn");
+      clearBtn.classList.toggle("hidden", !activeFrameworkId);
+
+      const grid = document.getElementById("frameworksGrid");
+      const list = (profileData.frameworks || []).filter(fw => matchesPrepFilter(fw.verified));
+
+      grid.innerHTML = list.map(fw => {
+        const isSelected = activeFrameworkId === fw.id;
+        const linkedProjectsCount = (profileData.projects || []).filter(p => (p.frameworks || []).includes(fw.id)).length;
+        const linkedSkillsCount = (profileData.skills || []).filter(s => (s.frameworks || []).includes(fw.id)).length;
+
+        return `
+          <article
+            onclick="setActiveFramework('${fw.id}')"
+            class="dossier-card cursor-pointer rounded-xl p-5 bg-white dark:bg-slate-900 border-2 transition ${
+              isSelected
+                ? 'border-blue-600 dark:border-blue-400 ring-4 ring-blue-500/15'
+                : 'border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-600'
+            }"
+          >
+            <div class="flex items-start justify-between gap-2">
+              <span class="font-mono text-xs font-bold px-2.5 py-1 rounded bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                ${fw.code}
+              </span>
+
+              <div class="flex items-center gap-2" onclick="event.stopPropagation()">
+                ${prepModeActive ? `
+                  <label class="inline-flex items-center gap-1.5 text-[11px] font-mono px-2 py-0.5 rounded cursor-pointer select-none ${
+                    fw.verified
+                      ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300'
+                      : 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-400'
+                  }">
+                    <input type="checkbox" ${fw.verified ? 'checked' : ''} onchange="toggleItemVerified('frameworks', '${fw.id}')" class="accent-emerald-600" />
+                    ${fw.verified ? 'Ready' : 'Study'}
+                  </label>
+                ` : `
+                  <span class="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">● Mapped</span>
+                `}
+              </div>
+            </div>
+
+            <h3 class="font-serif font-bold text-lg text-slate-900 dark:text-white mt-3 leading-snug">
+              ${fw.name}
+            </h3>
+            <p class="text-[11px] font-mono text-slate-500 dark:text-slate-400 mt-0.5">
+              ${fw.regulator}
+            </p>
+
+            <p class="text-xs text-slate-600 dark:text-slate-300 mt-2.5 leading-relaxed">
+              ${fw.scope}
+            </p>
+
+            ${prepModeActive && fw.interviewStudyNote ? `
+              <div class="mt-3 p-2.5 rounded-lg bg-amber-50/90 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-[11px] text-amber-900 dark:text-amber-200">
+                <strong>🎯 Interview Prep Note:</strong> ${fw.interviewStudyNote}
+              </div>
+            ` : ''}
+
+            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] font-mono">
+              <span class="text-slate-500 dark:text-slate-400">
+                <strong>${linkedProjectsCount}</strong> Projects · <strong>${linkedSkillsCount}</strong> Controls
+              </span>
+              <span class="text-blue-700 dark:text-blue-400 font-semibold">
+                ${isSelected ? '✓ Filtering Dossier' : 'Filter Crosswalk →'}
+              </span>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderSkills() {
+      const container = document.getElementById("skillsContainer");
+      const list = (profileData.skills || []).filter(sk => {
+        if (activeSkillCategory !== "all" && sk.category !== activeSkillCategory) return false;
+        return matchesPrepFilter(sk.verified);
+      });
+
+      container.innerHTML = list.map(sk => {
+        const isMatched = activeFrameworkId && (sk.frameworks || []).includes(activeFrameworkId);
+        const isDimmed = activeFrameworkId && !isMatched;
+
+        const badgeColor =
+          sk.category === "Regulatory Frameworks" ? "bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800" :
+          sk.category === "GRC & Audit Operations" ? "bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800" :
+          sk.category === "AI Governance & Security" ? "bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800" :
+          "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700";
+
+        return `
+          <div class="dossier-card rounded-xl p-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-start justify-between gap-3 ${isMatched ? 'crosswalk-match border-blue-600' : ''} ${isDimmed ? 'crosswalk-dim' : ''}">
+            <div class="space-y-1">
+              <span class="inline-block font-mono text-[10px] px-2 py-0.5 rounded border ${badgeColor}">
+                ${sk.category}
+              </span>
+              <div class="font-semibold text-sm text-slate-900 dark:text-white leading-snug pt-0.5">
+                ${sk.link && sk.link !== "#" ? `
+                  <a href="${sk.link}" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 dark:hover:text-blue-400 underline decoration-slate-300 dark:decoration-slate-700 underline-offset-4">
+                    ${sk.name} ↗
+                  </a>
+                ` : sk.name}
+              </div>
+            </div>
+
+            ${prepModeActive ? `
+              <label class="flex items-center gap-1 text-[11px] font-mono px-2 py-1 rounded cursor-pointer select-none shrink-0 ${
+                sk.verified
+                  ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300'
+                  : 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-bold'
+              }">
+                <input type="checkbox" ${sk.verified ? 'checked' : ''} onchange="toggleItemVerified('skills', '${sk.id}')" class="accent-emerald-600" />
+                <span>${sk.verified ? 'Ready' : 'Review'}</span>
+              </label>
+            ` : `
+              <span class="text-emerald-600 dark:text-emerald-400 text-xs font-mono shrink-0" title="Verified Capability">✓</span>
+            `}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderProjects() {
+      const container = document.getElementById("projectsLedger");
+      const list = (profileData.projects || []).filter(p => matchesPrepFilter(p.verified));
+      document.getElementById("projectCountBadge").textContent = list.length;
+
+      const grcChapterProjects = list.filter((p, idx) => p.era === "grc" || (!p.era && idx <= 3));
+      const engChapterProjects = list.filter((p, idx) => p.era === "engineering" || (!p.era && idx > 3));
+
+      const renderProjectCard = (proj, idx) => {
+        const isMatched = activeFrameworkId && (proj.frameworks || []).includes(activeFrameworkId);
+        const isDimmed = activeFrameworkId && !isMatched;
+        const isGrcEra = proj.era === "grc";
+
+        return `
+          <article class="dossier-card rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm relative overflow-hidden ${isMatched ? 'crosswalk-match border-blue-600' : ''} ${isDimmed ? 'crosswalk-dim' : ''}">
+            <div class="absolute left-0 top-0 bottom-0 w-1.5 ${isMatched ? 'bg-blue-600' : isGrcEra ? 'bg-[#1E3A8A] dark:bg-sky-500' : 'bg-teal-600 dark:bg-teal-500'}"></div>
+
+            <div class="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="font-mono text-[11px] text-slate-400 font-semibold">ENGAGEMENT #${String(idx + 1).padStart(2, '0')}</span>
+                  <span class="text-slate-300 dark:text-slate-700">•</span>
+                  <span class="font-mono text-xs ${isGrcEra ? 'text-blue-700 dark:text-sky-400' : 'text-teal-700 dark:text-teal-400'} font-semibold">${proj.sector || 'Enterprise Assurance'}</span>
+                </div>
+                <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white mt-1">
+                  ${proj.name}
+                </h3>
+                <p class="font-mono text-xs text-slate-600 dark:text-slate-300 mt-0.5">
+                  Role: <strong>${proj.role}</strong>
+                </p>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700">
+                  ${proj.tenure}
+                </span>
+
+                ${prepModeActive ? `
+                  <label class="inline-flex items-center gap-1.5 text-xs font-mono px-3 py-1 rounded-full cursor-pointer select-none ${
+                    proj.verified
+                      ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300'
+                      : 'bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-300 border border-amber-400 font-bold'
+                  }">
+                    <input type="checkbox" ${proj.verified ? 'checked' : ''} onchange="toggleItemVerified('projects', '${proj.id}')" class="accent-emerald-600" />
+                    ${proj.verified ? 'STAR Story Ready' : 'Prep STAR Story'}
+                  </label>
+                ` : ''}
+              </div>
+            </div>
+
+            <p class="text-slate-700 dark:text-slate-300 text-sm sm:text-base leading-relaxed mt-3.5">
+              ${proj.description}
+            </p>
+
+            ${prepModeActive && proj.grcDeliverable ? `
+              <div class="mt-3.5 p-3 rounded-xl bg-amber-50/90 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-xs text-amber-950 dark:text-amber-200">
+                <strong>🎙️ Interview Rehearsal Focus:</strong> ${proj.grcDeliverable}
+              </div>
+            ` : ''}
+
+            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex flex-wrap items-center gap-2">
+              <span class="font-mono text-[11px] uppercase tracking-wider text-slate-400 mr-1">${isGrcEra ? 'Controls & Frameworks:' : 'Engineering & QA Scope:'}</span>
+              ${(proj.frameworkBadges || []).map(b => `
+                <span class="font-mono text-xs px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                  ${b}
+                </span>
+              `).join("")}
+            </div>
+          </article>
+        `;
+      };
+
+      container.innerHTML = `
+        <!-- CHAPTER I: GRC, REGULATORY COMPLIANCE & CONTROLS ASSURANCE (MAY 2021 – PRESENT) -->
+        <div class="space-y-4">
+          <div class="p-4 rounded-xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="font-mono text-xs font-bold uppercase tracking-wider text-[#1E3A8A] dark:text-sky-400">Chapter I · May 2021 – Present (5+ Years)</span>
+              <h3 class="font-serif text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+                GRC, Regulatory Compliance &amp; ServiceNow Controls Assurance
+              </h3>
+              <p class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
+                Initiated with ASIC RG 271 &amp; APRA CPS 234 compliance delivery at TAL Life, progressing through Federal &amp; Victorian Government governance to leading ServiceNow workflows and controls assurance today.
+              </p>
+            </div>
+            <span class="font-mono text-xs font-semibold px-3 py-1 rounded-full bg-[#1E3A8A] text-white">
+              Primary Platform: ServiceNow (CSA/CAD)
+            </span>
+          </div>
+          <div class="space-y-4">
+            ${grcChapterProjects.map((p, i) => renderProjectCard(p, i)).join("")}
+          </div>
+        </div>
+
+        <!-- CHAPTER II: ENTERPRISE SOFTWARE DEVELOPMENT & QA FOUNDATION (JUL 2011 – MAY 2021) -->
+        <div class="space-y-4 pt-4">
+          <div class="p-4 rounded-xl bg-teal-50/80 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800 flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="font-mono text-xs font-bold uppercase tracking-wider text-teal-800 dark:text-teal-400">Chapter II · Jul 2011 – May 2021 (10 Years)</span>
+              <h3 class="font-serif text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+                Enterprise Software Development &amp; QA Engineering Foundation
+              </h3>
+              <p class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
+                A decade building and testing high-volume banking and insurance applications (Macquarie Bank, Standard Chartered, Charles Schwab, BNY Mellon)—providing deep technical fluency to audit code, APIs, and SDLC gates.
+              </p>
+            </div>
+            <span class="font-mono text-xs font-semibold px-3 py-1 rounded-full bg-teal-700 text-white">
+              Pega CSSA · Java · QA Automation
+            </span>
+          </div>
+          <div class="space-y-4">
+            ${engChapterProjects.map((p, i) => renderProjectCard(p, i + grcChapterProjects.length)).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCertifications() {
+      const container = document.getElementById("certificationsGrid");
+      const list = (profileData.certifications || []).filter(c => matchesPrepFilter(c.verified));
+
+      container.innerHTML = list.map(cert => `
+        <div class="dossier-card rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between gap-3">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-mono text-xs font-bold px-2.5 py-1 rounded bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                ${cert.code || 'CERT'}
+              </span>
+              ${prepModeActive ? `
+                <label class="inline-flex items-center gap-1 text-[11px] font-mono cursor-pointer select-none ${cert.verified ? 'text-emerald-600' : 'text-amber-600 font-bold'}">
+                  <input type="checkbox" ${cert.verified ? 'checked' : ''} onchange="toggleItemVerified('certifications', '${cert.id}')" class="accent-emerald-600" />
+                  ${cert.verified ? 'Completed' : 'In Progress'}
+                </label>
+              ` : `
+                <span class="font-mono text-[11px] text-slate-400">${cert.category || 'Credential'}</span>
+              `}
+            </div>
+            <h3 class="font-serif font-bold text-base text-slate-900 dark:text-white mt-3 leading-snug">
+              ${cert.name}
+            </h3>
+          </div>
+          <p class="font-mono text-xs text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-800">
+            ${cert.issuer || 'Verified'}
+          </p>
+        </div>
+      `).join("");
+    }
+
+    function renderContactAndLinks() {
+      const info = profileData.contactInfo || {};
+      const contactGrid = document.getElementById("contactGrid");
+
+      contactGrid.innerHTML = `
+        <a href="mailto:${info.email || 'sachaudhari1803@gmail.com'}" class="dossier-card rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 flex items-center gap-3.5">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 flex items-center justify-center font-mono font-bold">✉</div>
+          <div class="overflow-hidden">
+            <div class="font-mono text-[10px] uppercase tracking-wider text-slate-400">Direct Email</div>
+            <div class="font-semibold text-sm text-slate-900 dark:text-white truncate">${info.email || 'sachaudhari1803@gmail.com'}</div>
+          </div>
+        </a>
+
+        <a href="tel:${(info.phone || '+61469095839').replace(/\s+/g, '')}" class="dossier-card rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 flex items-center gap-3.5">
+          <div class="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-mono font-bold">☎</div>
+          <div>
+            <div class="font-mono text-[10px] uppercase tracking-wider text-slate-400">Mobile (Melbourne)</div>
+            <div class="font-semibold text-sm text-slate-900 dark:text-white">${info.phone || '+61 469 095 839'}</div>
+          </div>
+        </a>
+
+        <a href="${profileData.linkedinLink || 'https://www.linkedin.com/in/myselfsc'}" target="_blank" rel="noopener noreferrer" class="dossier-card rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 flex items-center gap-3.5">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 flex items-center justify-center font-mono font-bold">in</div>
+          <div>
+            <div class="font-mono text-[10px] uppercase tracking-wider text-slate-400">LinkedIn Profile</div>
+            <div class="font-semibold text-sm text-slate-900 dark:text-white">${info.linkedin || 'linkedin.com/in/myselfsc'} ↗</div>
+          </div>
+        </a>
+
+        <a href="${profileData.githubLink || 'https://github.com/csushildev'}" target="_blank" rel="noopener noreferrer" class="dossier-card rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 flex items-center gap-3.5">
+          <div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-mono font-bold">⌥</div>
+          <div>
+            <div class="font-mono text-[10px] uppercase tracking-wider text-slate-400">GitHub &amp; Artifacts</div>
+            <div class="font-semibold text-sm text-slate-900 dark:text-white">${info.github || 'github.com/csushildev'} ↗</div>
+          </div>
+        </a>
+      `;
+
+      const extList = document.getElementById("externalLinksList");
+      extList.innerHTML = (profileData.links || []).map(l => `
+        <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="dossier-card rounded-xl p-4 bg-slate-100/80 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 hover:border-blue-500 flex items-center justify-between gap-3">
+          <div>
+            <span class="font-mono text-[10px] uppercase tracking-wider text-blue-700 dark:text-blue-400 font-bold block">${l.badge || 'Resource'}</span>
+            <span class="font-semibold text-sm text-slate-900 dark:text-white">${l.text}</span>
+          </div>
+          <span class="font-mono text-xs text-blue-600 dark:text-blue-400">Open ↗</span>
+        </a>
+      `).join("");
+    }
+
+    function renderAll() {
+      updateThemeButtonUI();
+      renderHeaderAndHero();
+      renderFrameworks();
+      renderSkills();
+      renderProjects();
+      renderCertifications();
+      renderContactAndLinks();
+    }
+
+    // =========================================================================
+    // ZERO-CODE CLOUD JSON UPLOAD, DOWNLOAD & LIVE EDITOR HANDLERS
+    // =========================================================================
+    function downloadProfileJson() {
+      const jsonString = JSON.stringify(profileData, null, 2);
+      const blob = new Blob([jsonString], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "sushil_grc_profile.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast("Downloaded sushil_grc_profile.json");
+    }
+
+    function handleJsonFileUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          profileData = normalizeUploadedJson(parsed);
+          saveToStorage(`Uploaded & applied ${file.name} successfully!`);
+          const modal = document.getElementById("jsonEditorModal");
+          if (!modal.classList.contains("hidden")) {
+            document.getElementById("jsonEditorTextarea").value = JSON.stringify(profileData, null, 2);
+          }
+        } catch (err) {
+          showToast("Invalid JSON file: " + err.message);
+        } finally {
+          event.target.value = "";
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function openJsonEditorModal() {
+      const modal = document.getElementById("jsonEditorModal");
+      const textarea = document.getElementById("jsonEditorTextarea");
+      const errBanner = document.getElementById("jsonErrorBanner");
+      errBanner.classList.add("hidden");
+      textarea.value = JSON.stringify(profileData, null, 2);
+      modal.classList.remove("hidden");
+    }
+
+    function closeJsonEditorModal() {
+      document.getElementById("jsonEditorModal").classList.add("hidden");
+    }
+
+    function applyLiveJsonEdits() {
+      const textarea = document.getElementById("jsonEditorTextarea");
+      const errBanner = document.getElementById("jsonErrorBanner");
+      try {
+        const parsed = JSON.parse(textarea.value);
+        profileData = normalizeUploadedJson(parsed);
+        errBanner.classList.add("hidden");
+        saveToStorage("Applied live JSON changes to portfolio!");
+        closeJsonEditorModal();
+      } catch (err) {
+        errBanner.textContent = "JSON Syntax Error: " + err.message;
+        errBanner.classList.remove("hidden");
+      }
+    }
+
+    function resetToDefaultProfile() {
+      profileData = JSON.parse(JSON.stringify(DEFAULT_PROFILE_DATA));
+      localStorage.removeItem(STORAGE_KEY_PROFILE);
+      const modal = document.getElementById("jsonEditorModal");
+      if (!modal.classList.contains("hidden")) {
+        document.getElementById("jsonEditorTextarea").value = JSON.stringify(profileData, null, 2);
+      }
+      renderAll();
+      showToast("Restored default Executive GRC profile data");
+    }
+
+    // Initialize on window load
+    window.onload = function() {
+      loadFromStorage();
+      renderAll();
+    };
+  </script>
 </body>
 </html>
- 
